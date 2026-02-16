@@ -540,8 +540,8 @@ class VirtualMachine extends EventEmitter {
     /**
      * @returns {JSZip} JSZip zip object representing the sb3.
      */
-    _saveProjectZip () {
-        const projectJson = this.toJSON();
+    _saveProjectZip (json) {
+        const projectJson = json || this.toJSON();
 
         // TODO want to eventually move zip creation out of here, and perhaps
         // into scratch-storage
@@ -583,8 +583,8 @@ class VirtualMachine extends EventEmitter {
      * @param {JSZip.OutputType} [type] JSZip output type. Defaults to 'blob' for Scratch compatibility.
      * @returns {Promise<unknown>} Compressed sb3 file in a type determined by the type argument.
      */
-    saveProjectSb3 (type) {
-        return this._saveProjectZip().generateAsync({
+    saveProjectSb3 (type, json) {
+        return this._saveProjectZip(json).generateAsync({
             // Don't configure compression here. _saveProjectZip() will set it for each file.
             type: type || 'blob',
             mimeType: 'application/x.scratch.sb3'
