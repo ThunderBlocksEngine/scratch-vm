@@ -540,7 +540,7 @@ class VirtualMachine extends EventEmitter {
     /**
      * @returns {JSZip} JSZip zip object representing the sb3.
      */
-    _saveProjectZip (json) {
+    _saveProjectZip (json, extraAssets) {
         const projectJson = json || this.toJSON();
 
         // TODO want to eventually move zip creation out of here, and perhaps
@@ -550,6 +550,10 @@ class VirtualMachine extends EventEmitter {
         // Put everything in a zip file
         zip.file('project.json', projectJson);
         this._addFileDescsToZip(this.serializeAssets(), zip);
+        if (extraAssets) {
+            console.log("adding extra assets", extraAssets)
+            this._addFileDescsToZip(extraAssets, zip);
+        }
 
         // Use a fixed modification date for the files in the zip instead of letting JSZip use the
         // current time to avoid a very small metadata leak and make zipping deterministic. The magic
@@ -583,8 +587,8 @@ class VirtualMachine extends EventEmitter {
      * @param {JSZip.OutputType} [type] JSZip output type. Defaults to 'blob' for Scratch compatibility.
      * @returns {Promise<unknown>} Compressed sb3 file in a type determined by the type argument.
      */
-    saveProjectSb3 (type, json) {
-        return this._saveProjectZip(json).generateAsync({
+    saveProjectSb3 (type, json, extraAssets) {
+        return this._saveProjectZip(json, extraAssets).generateAsync({
             // Don't configure compression here. _saveProjectZip() will set it for each file.
             type: type || 'blob',
             mimeType: 'application/x.scratch.sb3'
