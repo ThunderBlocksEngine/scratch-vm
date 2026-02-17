@@ -364,7 +364,7 @@ class RenderedTarget extends Target {
      * Set size, as a percentage of the costume size.
      * @param {!number} size Size of rendered target, as % of costume size.
      */
-    setSize (size) { // used by compiler
+    setSize (size, useFencing) { // used by compiler
         if (this.isStage) {
             return;
         }
@@ -374,7 +374,7 @@ class RenderedTarget extends Target {
             const costumeSize = this.renderer.getCurrentSkinSize(this.drawableID);
             const origW = costumeSize[0];
             const origH = costumeSize[1];
-            const fencing = this.runtime.runtimeOptions.fencing;
+            const fencing = useFencing ?? this.runtime.runtimeOptions.fencing;
             const minScale = fencing ? Math.min(1, Math.max(5 / origW, 5 / origH)) : 0;
             const maxScale = fencing ? Math.min(
                 (1.5 * this.runtime.stageWidth) / origW,
