@@ -33,8 +33,73 @@ class Scratch3OperatorsBlocks {
             operator_contains: this.contains,
             operator_mod: this.mod,
             operator_round: this.round,
-            operator_mathop: this.mathop
+            operator_mathop: this.mathop,
+            operator_tb_power: this.power,
+            operator_tb_exactEquals: this.exactEquals,
+            operator_tb_true: this.true,
+            operator_tb_false: this.false,
+            operator_tb_newLine: this.newLine,
+            operator_tb_pi: this.pi,
+            operator_tb_e: this.e,
+            operator_tb_infinity: this.infinity,
+            operator_tb_inlineIf: this.inlineIf,
+            operator_tb_substring: this.substring,
+            operator_tb_startsWith: this.startsWith,
+            operator_tb_endsWith: this.endsWith
         };
+    }
+
+    newLine() {
+        return Cast.toString("\n")
+    }
+
+    true() {
+        return Cast.toBoolean(true)
+    }
+
+    false() {
+        return Cast.toBoolean(false)
+    }
+
+    inlineIf(args) {
+        return Cast.toString(args.CONDITION ? args.IFTRUE : args.IFFALSE)
+    }
+
+    pi() {
+        return Cast.toString(3.141592653589793238462643383279502884197)
+    }
+
+    e() {
+        return Cast.toString(2.7182818284590452353602874713527)
+    }
+
+    infinity() {
+        return Cast.toString("Infinity")
+    }
+
+    substring(args) {
+        const text = Cast.toString(args.TEXT)
+        const start = Math.round(Cast.toNumber(args.START) - 1)
+        const end = Math.round(Cast.toNumber(args.END || text.length))
+        console.log(text, start, end, args.END)
+        if (end < start) return "";
+        return Cast.toString(text.substring(start, end))
+    }
+
+    startsWith(args) {
+        return Cast.toBoolean(Cast.toString(args.TEXT).startsWith(Cast.toString(args.STARTS)))
+    }
+
+    endsWith(args) {
+        return Cast.toBoolean(Cast.toString(args.TEXT).endsWith(Cast.toString(args.ENDS)))
+    }
+
+    exactEquals(args) {
+        return Cast.toBoolean(args.ONE == args.TWO)
+    }
+
+    power(args) {
+        return Cast.toNumber(Math.pow(Cast.toNumber(args.ONE), Cast.toNumber(args.TWO)));
     }
 
     add (args) {

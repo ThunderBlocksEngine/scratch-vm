@@ -306,7 +306,10 @@ class Scratch3LooksBlocks {
             looks_goforwardbackwardlayers: this.goForwardBackwardLayers,
             looks_size: this.getSize,
             looks_costumenumbername: this.getCostumeNumberName,
-            looks_backdropnumbername: this.getBackdropNumberName
+            looks_backdropnumbername: this.getBackdropNumberName,
+            looks_tb_previousCostume: this.previousCostume,
+            looks_tb_previousBackdrop: this.previousBackdrop,
+            looks_tb_forceSetSize: this.forceSetSize
         };
     }
 
@@ -324,6 +327,10 @@ class Scratch3LooksBlocks {
                 getId: (_, fields) => getMonitorIdForBlockWithArgs('backdropnumbername', fields)
             }
         };
+    }
+
+    forceSetSize(args, util) {
+        util.target.setSize(Cast.toNumber(args.SIZE), false)
     }
 
     say (args, util) {
@@ -475,6 +482,20 @@ class Scratch3LooksBlocks {
         this._setCostume(
             util.target, util.target.currentCostume + 1, true
         );
+    }
+
+    previousCostume(args, util) {
+        const target = util.target;
+        const costumeCount = target.getCostumes().length;
+        const newIndex = (target.currentCostume - 1 + costumeCount) % costumeCount;
+        target.setCostume(newIndex);
+    }
+
+    previousBackdrop(args, util) {
+        const stage = util.runtime.getTargetForStage();
+        const backdropCount = stage.getCostumes().length;
+        const newIndex = (stage.currentCostume - 1 + backdropCount) % backdropCount;
+        stage.setCostume(newIndex);
     }
 
     switchBackdrop (args) {

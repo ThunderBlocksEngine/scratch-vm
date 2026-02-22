@@ -73,7 +73,9 @@ class Scratch3SensingBlocks {
             sensing_answer: this.getAnswer,
             sensing_username: this.getUsername,
             sensing_userid: () => {}, // legacy no-op block
-            sensing_online: this.isOnline
+            sensing_online: this.isOnline,
+            sensing_tb_distanceToXY: this.distanceToXY,
+            sensing_tb_inlineAsk: this.inlineAsk
         };
     }
 
@@ -180,6 +182,11 @@ class Scratch3SensingBlocks {
         });
     }
 
+    async inlineAsk(args, util) {
+        await vm.runtime.ext_scratch3_sensing.askAndWait(args, util)
+        return vm.runtime.ext_scratch3_sensing.getAnswer()
+    }
+
     getAnswer () {
         return this._answer;
     }
@@ -220,6 +227,14 @@ class Scratch3SensingBlocks {
         const dx = util.target.x - targetX;
         const dy = util.target.y - targetY;
         return Math.sqrt((dx * dx) + (dy * dy));
+    }
+
+    distanceToXY(args, util) {
+        const x = Cast.toNumber(args.X);
+        const y = Cast.toNumber(args.Y);
+        const dx = util.target.x - x;
+        const dy = util.target.y - y;
+        return Cast.toNumber(Math.sqrt((dx * dx) + (dy * dy)));
     }
 
     setDragMode (args, util) {

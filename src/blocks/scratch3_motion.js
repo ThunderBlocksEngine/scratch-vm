@@ -40,7 +40,10 @@ class Scratch3MotionBlocks {
             motion_scroll_up: () => {},
             motion_align_scene: () => {},
             motion_xscroll: () => {},
-            motion_yscroll: () => {}
+            motion_yscroll: () => {},
+            motion_tb_turnAround: this.turnAround,
+            motion_tb_pointTowardsXY: this.pointTowardsXY,
+            motion_tb_goToXYWithoutFencing: this.goToXYWithoutFencing
         };
     }
 
@@ -77,6 +80,7 @@ class Scratch3MotionBlocks {
         const y = Cast.toNumber(args.Y);
         util.target.setXY(x, y);
     }
+
 
     getTargetXY (targetName, util) {
         let targetX = 0;
@@ -116,6 +120,10 @@ class Scratch3MotionBlocks {
         util.target.setDirection(util.target.direction - degrees);
     }
 
+    turnAround(args, util) {
+        util.target.setDirection(util.target.direction + 180)
+    }
+
     pointInDirection (args, util) {
         const direction = Cast.toNumber(args.DIRECTION);
         util.target.setDirection(direction);
@@ -142,6 +150,19 @@ class Scratch3MotionBlocks {
         const dy = targetY - util.target.y;
         const direction = 90 - MathUtil.radToDeg(Math.atan2(dy, dx));
         util.target.setDirection(direction);
+    }
+
+    pointTowardsXY(args, util) {
+        const dx = util.target.x - args.X;
+        const dy = util.target.y - args.Y;
+        const angleInRadians = Math.atan2(dx, dy);
+        const angleInDegrees = angleInRadians * (180 / Math.PI);
+
+        util.target.setDirection(Cast.toNumber(angleInDegrees + 180))
+    }
+
+    goToXYWithoutFencing(args, util) {
+        util.target.setXY(Cast.toNumber(args.X), Cast.toNumber(args.Y), null, true)
     }
 
     glide (args, util) {
