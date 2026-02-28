@@ -27,6 +27,7 @@ class Scratch3ControlBlocks {
             control_repeat_until: this.repeatUntil,
             control_while: this.repeatWhile,
             control_for_each: this.forEach,
+            control_tb_for: this.for,
             control_forever: this.forever,
             control_wait: this.wait,
             control_wait_until: this.waitUntil,
@@ -94,6 +95,28 @@ class Scratch3ControlBlocks {
         if (util.stackFrame.index < Number(args.VALUE)) {
             util.stackFrame.index++;
             variable.value = util.stackFrame.index;
+            util.startBranch(1, true);
+        }
+    }
+
+    for (args, util) {
+        const variable = util.target.lookupOrCreateVariable(
+            args.VARIABLE.id, args.VARIABLE.name);
+
+        if (typeof util.stackFrame.index === 'undefined') {
+            util.stackFrame.index = Cast.toNumber(args.START);
+            util.stackFrame.iterCount = Math.floor(Math.abs((Cast.toNumber(args.STOP) - Cast.toNumber(args.START)) / Cast.toNumber(args.STEP))) + 1
+            util.stackFrame.iterIndex = 0
+            // console.log(util.stackFrame.iterCount)
+        }
+
+        // if (util.stackFrame.index < Cast.toNumber(args.STOP)) {
+        // console.log(util.stackFrame.iterIndex, util.stackFrame.iterCount)
+        if (util.stackFrame.iterIndex < util.stackFrame.iterCount) {
+            util.stackFrame.iterIndex++
+
+            variable.value = util.stackFrame.index;
+            util.stackFrame.index += Cast.toNumber(args.STEP);
             util.startBranch(1, true);
         }
     }
