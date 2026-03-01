@@ -45,7 +45,10 @@ class Scratch3OperatorsBlocks {
             operator_tb_inlineIf: this.inlineIf,
             operator_tb_substring: this.substring,
             operator_tb_startsWith: this.startsWith,
-            operator_tb_endsWith: this.endsWith
+            operator_tb_endsWith: this.endsWith,
+            operator_tb_gtOrEqual: this.gtOrEqual,
+            operator_tb_ltOrEqual: this.ltOrEqual,
+            operator_tb_atan2: this.atan2
         };
     }
 
@@ -128,6 +131,14 @@ class Scratch3OperatorsBlocks {
 
     gt (args) {
         return Cast.compare(args.OPERAND1, args.OPERAND2) > 0;
+    }
+
+    ltOrEqual (args) {
+        return Cast.compare(args.OPERAND1, args.OPERAND2) < 0 || Cast.compare(args.OPERAND1, args.OPERAND2) === 0;
+    }
+
+    gtOrEqual (args) {
+        return Cast.compare(args.OPERAND1, args.OPERAND2) > 0 || Cast.compare(args.OPERAND1, args.OPERAND2) === 0;
     }
 
     and (args) {
@@ -216,6 +227,10 @@ class Scratch3OperatorsBlocks {
         case '10 ^': return Math.pow(10, n);
         }
         return 0;
+    }
+
+    atan2(args) {
+        return Math.atan2(Cast.toNumber(args.NUM2), Cast.toNumber(args.NUM1)) * (180 / Math.PI);
     }
 }
 

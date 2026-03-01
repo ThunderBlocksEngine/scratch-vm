@@ -75,7 +75,8 @@ class Scratch3SensingBlocks {
             sensing_userid: () => {}, // legacy no-op block
             sensing_online: this.isOnline,
             sensing_tb_distanceToXY: this.distanceToXY,
-            sensing_tb_inlineAsk: this.inlineAsk
+            sensing_tb_inlineAsk: this.inlineAsk,
+            sensing_tb_distanceFromXYToXY: this.distanceFromXYToXY
         };
     }
 
@@ -234,6 +235,16 @@ class Scratch3SensingBlocks {
         const y = Cast.toNumber(args.Y);
         const dx = util.target.x - x;
         const dy = util.target.y - y;
+        return Cast.toNumber(Math.sqrt((dx * dx) + (dy * dy)));
+    }
+
+    distanceFromXYToXY(args) {
+        const x1 = Cast.toNumber(args.X1);
+        const y1 = Cast.toNumber(args.Y1);
+        const x2 = Cast.toNumber(args.X2);
+        const y2 = Cast.toNumber(args.Y2);
+        const dx = x2 - x1;
+        const dy = y2 - y1;
         return Cast.toNumber(Math.sqrt((dx * dx) + (dy * dy)));
     }
 
