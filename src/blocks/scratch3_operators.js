@@ -230,7 +230,7 @@ class Scratch3OperatorsBlocks {
     }
 
     atan2(args) {
-        return Math.atan2(Cast.toNumber(args.NUM2), Cast.toNumber(args.NUM1)) * (180 / Math.PI);
+        return Math.atan2(Cast.toNumber(args.NUM1), Cast.toNumber(args.NUM2)) * (180 / Math.PI);
     }
 }
 
